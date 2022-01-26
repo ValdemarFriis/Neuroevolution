@@ -15,20 +15,15 @@ void setup() {
 void draw() {
   clear();
   fill(255);
-  rect(0,50,1000,1000);
-  image(trackImage,0,80);  
+  rect(0, 50, 1000, 1000);
+  image(trackImage, 0, 80);  
 
-  carSystem.updateAndDisplay();
-  
+  carSystem.run();
+
   //TESTKODE: Frastortering af dårlige biler, for hver gang der går 200 frame - f.eks. dem der kører uden for banen
-  /* if (frameCount%200==0) {
-      println("FJERN DEM DER KØRER UDENFOR BANEN frameCount: " + frameCount);
-      for (int i = carSystem.CarControllerList.size()-1 ; i >= 0;  i--) {
-        SensorSystem s = carSystem.CarControllerList.get(i).sensorSystem;
-        if(s.whiteSensorFrameCount > 0){
-          carSystem.CarControllerList.remove(carSystem.CarControllerList.get(i));
-         }
-      }
-    }*/
-    //
+  if (frameCount%300==0) {
+    carSystem.calcFitness();
+    carSystem.naturalSelection();
+    carSystem.generate();
+  }
 }
