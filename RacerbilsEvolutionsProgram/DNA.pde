@@ -22,9 +22,10 @@ class DNA {
   }
 
   void fitness() {
+    println(sensorSystem.clockWiseRotationFrameCounter);
 
     if (sensorSystem.clockWiseRotationFrameCounter>0) {
-      if (sensorSystem.whiteSensorFrameCount > 0){
+      if (sensorSystem.whiteSensorFrameCount > 0) {
         fitness = 0;
       } else {
         fitness = sensorSystem.clockWiseRotationFrameCounter;
@@ -51,6 +52,12 @@ class DNA {
       if (i > midpoint) child.genes[i] = genes[i];
       else child.genes[i] = partner.genes[i];
     }
+    return child;
+  }
+
+  DNA newDNA() {
+    DNA child  = new DNA();
+    hjerne.weights = genes;
     return child;
   }
 

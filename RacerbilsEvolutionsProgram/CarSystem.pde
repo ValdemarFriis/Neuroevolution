@@ -4,7 +4,7 @@ class CarSystem {
 
   DNA[] population;
   ArrayList<DNA> matingPool = new ArrayList<DNA>();
-  float mutationRate = 0.00001;
+  float mutationRate = 0.1;
 
   CarSystem(int populationSize) {
     population = new DNA[populationSize];
@@ -38,18 +38,21 @@ class CarSystem {
         if (population[i].fitness > 0) matingPool.add(population[i]);
       }
     }
-    for (DNA d : matingPool) println(d.fitness);
+    //for (DNA d : matingPool) println(d.fitness);
   }  
 
   void generate() {
     for (int i=0; i<populationSize; i++) {
-      int a = int(random(matingPool.size()));
+      /*int a = int(random(matingPool.size()));
       int b = int(random(matingPool.size()));
       DNA partnerA = matingPool.get(a);
       DNA partnerB = matingPool.get(b);
       DNA child = partnerA.crossover(partnerB);
       child.mutate(mutationRate);
-      population[i]=child;
+      population[i]=child;*/
+      DNA child = matingPool.get(int(random(matingPool.size())));
+      child.mutate(mutationRate);
+      population[i] = child;
     }
   }
 
