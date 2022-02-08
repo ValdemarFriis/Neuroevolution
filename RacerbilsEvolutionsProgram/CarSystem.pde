@@ -34,11 +34,11 @@ class CarSystem {
 
       float fitness = map(population[i].fitness, 0, maxFitness, 0, 1);
       int n = int(fitness*100);
-      println(n);
       for (int j = 0; j < n; j++) {   
         if (population[i].fitness > 0) matingPool.add(population[i]);
       }
     }
+    for (DNA d : matingPool) println(d.fitness);
   }  
 
   void generate() {
