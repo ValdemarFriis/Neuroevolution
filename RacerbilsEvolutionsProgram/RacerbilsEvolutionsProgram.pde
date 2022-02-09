@@ -3,6 +3,7 @@ int       populationSize  = 500;
 int timer = 0;
 float simulationTimer = 10;
 int bestFitness;
+int generations = 1;
 
 //CarSystem: Indholder en population af "controllere" 
 CarSystem carSystem       = new CarSystem(populationSize);
@@ -32,6 +33,7 @@ void draw() {
   text("Time Elapsed: " + int(millis()/1000), 0, 24);
   text("Top Fitness: " + int(carSystem.topFitness), 220, 24);
   text("Max Fitness: " + bestFitness, 0, 50);
+  text("generation: " + generations, 220, 50);
 }
 
 void simulate() {
@@ -45,6 +47,6 @@ void simulate() {
     for (int i = 0; i < populationSize; i++) {
       carSystem.population[i].reset();
     }
-    println(carSystem.population[0].hjerne.biases);
+    generations++;
   }
 }
