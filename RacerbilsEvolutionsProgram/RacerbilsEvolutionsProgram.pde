@@ -1,5 +1,8 @@
 //populationSize: Hvor mange "controllere" der genereres, controller = bil & hjerne & sensorer
-int       populationSize  = 100;     
+int       populationSize  = 500;     
+int timer = 0;
+float simulationTimer = 10;
+int bestFitness;
 
 //CarSystem: Indholder en population af "controllere" 
 CarSystem carSystem       = new CarSystem(populationSize);
@@ -14,16 +17,33 @@ void setup() {
 
 void draw() {
   clear();
-  fill(255);
-  rect(0, 50, 1000, 1000);
+  background(255);
+  fill(0);
+  rect(0, 0, 1000, 80);
   image(trackImage, 0, 80);  
 
+  carSystem.calcFitness();
+  carSystem.naturalSelection();
   carSystem.run();
+  simulate();
 
-  //TESTKODE: Frastortering af dårlige biler, for hver gang der går 200 frame - f.eks. dem der kører uden for banen
-  if (frameCount%300==0) {
-    carSystem.calcFitness();
-    carSystem.naturalSelection();
+  textSize(24);
+  fill(255);
+  text("Time Elapsed: " + int(millis()/1000), 0, 24);
+  text("Top Fitness: " + int(carSystem.topFitness), 220, 24);
+  text("Max Fitness: " + bestFitness, 0, 50);
+}
+
+void simulate() {
+  if (millis() > timer+simulationTimer*1000) {
+    timer = millis();
+    
+    if (bestFitness < carSystem.topFitness) bestFitness = int(carSystem.topFitness);
+    
+    
     carSystem.generate();
+    for (int i = 0; i < populationSize; i++) {
+      carSystem.population[i].reset();
+    }
   }
 }

@@ -4,13 +4,14 @@ class CarSystem {
 
   DNA[] population;
   ArrayList<DNA> matingPool = new ArrayList<DNA>();
-  float mutationRate = 0.1;
+  float mutationRate = 0.001;
+  float topFitness;
 
   CarSystem(int populationSize) {
     population = new DNA[populationSize];
 
     for (int i=0; i<populationSize; i++) { 
-      population[i] = new DNA();
+      population[i] = new DNA(2);
     }
   }
 
@@ -27,30 +28,22 @@ class CarSystem {
     for (int i = 0; i < populationSize; i++) {
       if (population[i].fitness > maxFitness) {
         maxFitness = population[i].fitness;
+        topFitness = maxFitness;
       }
     }
 
     for (int i = 0; i < populationSize; i++) {
 
-      float fitness = map(population[i].fitness, 0, maxFitness, 0, 1);
-      int n = int(fitness*100);
+      int n = int(population[i].fitness/maxFitness*100);
       for (int j = 0; j < n; j++) {   
-        if (population[i].fitness > 0) matingPool.add(population[i]);
+        matingPool.add(population[i]);
       }
     }
-    //for (DNA d : matingPool) println(d.fitness);
   }  
 
   void generate() {
     for (int i=0; i<populationSize; i++) {
-      /*int a = int(random(matingPool.size()));
-      int b = int(random(matingPool.size()));
-      DNA partnerA = matingPool.get(a);
-      DNA partnerB = matingPool.get(b);
-      DNA child = partnerA.crossover(partnerB);
-      child.mutate(mutationRate);
-      population[i]=child;*/
-      DNA child = matingPool.get(int(random(matingPool.size())));
+      DNA child = matingPool.get(int(random(matingPool.size()))).newDNA();
       child.mutate(mutationRate);
       population[i] = child;
     }
@@ -59,12 +52,12 @@ class CarSystem {
   void run() {
     //1.) Opdaterer sensorer og bilpositioner
     for (DNA dna : population) {
-      dna.update();
+      if (dna.sensorSystem.whiteSensorFrameCount<=0) dna.update();
     }
 
     //2.) Tegner tilsidst - så sensorer kun ser banen og ikke andre biler!
     for (DNA dna : population) {
-      dna.display();
+      if (dna.sensorSystem.whiteSensorFrameCount<=0) dna.display();
     }
   }
 }

@@ -7,11 +7,16 @@ class DNA {
 
   //Forbinder - Sensorer & Hjerne & Bil
   float varians             = 2; //hvor stor er variansen på de tilfældige vægte og bias
-  Car bil                    = new Car();
-  NeuralNetwork hjerne       = new NeuralNetwork(varians); 
-  SensorSystem  sensorSystem = new SensorSystem();
+  Car bil;//                    = new Car();
+  NeuralNetwork hjerne;//       = new NeuralNetwork(varians); 
+  SensorSystem  sensorSystem;// = new SensorSystem();
 
-  DNA() {
+  DNA(float v) {
+    varians = v;
+    bil = new Car();
+    hjerne = new NeuralNetwork(varians);
+    sensorSystem = new SensorSystem();
+    
     for (int i=0; i<11; i++) {
       if (i<8) {
         genes[i]=hjerne.weights[i];
@@ -22,7 +27,6 @@ class DNA {
   }
 
   void fitness() {
-    println(sensorSystem.clockWiseRotationFrameCounter);
 
     if (sensorSystem.clockWiseRotationFrameCounter>0) {
       if (sensorSystem.whiteSensorFrameCount > 0) {
@@ -38,27 +42,20 @@ class DNA {
   void mutate(float mutationRate) {
     for (int i=0; i<genes.length; i++) {
       if (random(1)<mutationRate) {
-        genes[i] = random(-mutationVarians, mutationVarians);
+        genes[i] += random(-mutationVarians, mutationVarians);
       }
     }
   }
 
-  DNA crossover(DNA partner) {
-    DNA child = new DNA();
-
-    int midpoint = int(random(genes.length));
-
-    for (int i=0; i < genes.length; i++) {
-      if (i > midpoint) child.genes[i] = genes[i];
-      else child.genes[i] = partner.genes[i];
-    }
+  DNA newDNA() {
+    DNA child  = new DNA(varians);
+    child.hjerne.weights = genes;
     return child;
   }
-
-  DNA newDNA() {
-    DNA child  = new DNA();
-    hjerne.weights = genes;
-    return child;
+  
+  void reset(){
+    bil = new Car();
+    sensorSystem = new SensorSystem();
   }
 
   void update() {
