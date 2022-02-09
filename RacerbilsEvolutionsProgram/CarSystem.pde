@@ -3,7 +3,7 @@ class CarSystem {
   //Her kan man lave en generisk alogoritme, der skaber en optimal "hjerne" til de forhåndenværende betingelser
 
   DNA[] population;
-  ArrayList<DNA> matingPool = new ArrayList<DNA>();
+  ArrayList<DNA> matingPool;
   float mutationRate = 0.001;
   float topFitness;
 
@@ -22,7 +22,12 @@ class CarSystem {
   }
 
   void naturalSelection() {
-    matingPool.clear();
+    /*for (int i = matingPool.size()-1; i >= 0; i--){
+      if(matingPool.get(i).fitness < bestFitness){
+        matingPool.remove(i);
+      }
+    }*/
+    matingPool = new ArrayList<DNA>();
 
     float maxFitness = 0;
     for (int i = 0; i < populationSize; i++) {
@@ -33,7 +38,6 @@ class CarSystem {
     }
 
     for (int i = 0; i < populationSize; i++) {
-
       int n = int(population[i].fitness/maxFitness*100);
       for (int j = 0; j < n; j++) {   
         matingPool.add(population[i]);

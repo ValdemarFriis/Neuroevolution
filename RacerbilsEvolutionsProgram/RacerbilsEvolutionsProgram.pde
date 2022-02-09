@@ -37,13 +37,14 @@ void draw() {
 void simulate() {
   if (millis() > timer+simulationTimer*1000) {
     timer = millis();
-    
+
     if (bestFitness < carSystem.topFitness) bestFitness = int(carSystem.topFitness);
-    
-    
+
+
     carSystem.generate();
     for (int i = 0; i < populationSize; i++) {
       carSystem.population[i].reset();
     }
+    println(carSystem.population[0].hjerne.biases);
   }
 }

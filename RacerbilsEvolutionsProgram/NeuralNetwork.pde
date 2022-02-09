@@ -19,7 +19,11 @@ class NeuralNetwork {
     }
     for(int i=0; i < biases.length -1; i++){
       biases[i] = random(-varians,varians);
-    }    
+    }
+  }
+  
+  float[] returnWeights(){
+    return weights;
   }
 
   float getOutput(float x1, float x2, float x3) {

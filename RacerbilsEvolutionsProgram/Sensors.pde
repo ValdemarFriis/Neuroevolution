@@ -1,6 +1,9 @@
 class SensorSystem {
   //SensorSystem - alle bilens sensorer - ogå dem der ikke bruges af "hjernen"
   
+  //tjekker hvor lang tid den er på højre side af banen
+  float rightSide;
+  
   //wall detectors
   float sensorMag = 50;
   float sensorAngle = PI*2/8;
@@ -85,6 +88,8 @@ class SensorSystem {
     updateSensorVectors(vel);
     
     anchorPos.set(pos.x,pos.y);
+    
+    if (pos.x > width/2) rightSide++;
   }
 
   void updateSensorVectors(PVector vel) {
