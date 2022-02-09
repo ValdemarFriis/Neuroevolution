@@ -1,9 +1,11 @@
 //populationSize: Hvor mange "controllere" der genereres, controller = bil & hjerne & sensorer
-int       populationSize  = 500;     
+int       populationSize  = 1000;     
 int timer = 0;
 float simulationTimer = 10;
 int bestFitness;
 int generations = 1;
+
+boolean showCensors = false;
 
 //CarSystem: Indholder en population af "controllere" 
 CarSystem carSystem       = new CarSystem(populationSize);
@@ -34,6 +36,8 @@ void draw() {
   text("Top Fitness: " + int(carSystem.topFitness), 220, 24);
   text("Max Fitness: " + bestFitness, 0, 50);
   text("generation: " + generations, 220, 50);
+  fill(0);
+  text("Press 'enter' to toggle censors", 80, height-24);
 }
 
 void simulate() {
@@ -42,11 +46,16 @@ void simulate() {
 
     if (bestFitness < carSystem.topFitness) bestFitness = int(carSystem.topFitness);
 
-
     carSystem.generate();
     for (int i = 0; i < populationSize; i++) {
-      carSystem.population[i].reset();
+      carSystem.population[i].reset();            
     }
     generations++;
+  }
+}
+
+void keyPressed(){
+  if (keyCode == (int)ENTER){
+    showCensors = !showCensors;
   }
 }

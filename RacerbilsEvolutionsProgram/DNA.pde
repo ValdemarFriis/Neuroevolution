@@ -68,6 +68,6 @@ class DNA {
 
   void display() {
     bil.displayCar();
-    sensorSystem.displaySensors();
+    if (showCensors) sensorSystem.displaySensors();
   }
 }
